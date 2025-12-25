@@ -57,3 +57,22 @@ def get_all_books():
 
     conn.close()
     return books
+
+def get_annotations_for_book(book_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT id, quote, created_at
+        FROM annotations
+        WHERE book_id = ?
+        ORDER BY created_at DESC
+        """,
+        (book_id,)
+    )
+
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
